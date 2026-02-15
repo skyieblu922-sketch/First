@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Check</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f1a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      text-align: center;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      font-size: 15px;
+      opacity: 0.9;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .progress {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 15px 0 10px;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: white;
+      transition: width 0.2s;
+    }
+
+    .log {
+      text-align: left;
+      background: rgba(0,0,0,0.25);
+      border-radius: 14px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      height: 160px;
+      overflow: auto;
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .btn {
+      margin-top: 16px;
+      padding: 12px 16px;
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: black;
+      display: none;
+    }
+
+    .safe {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="title">🔒 Security Check</div>
+    <div class="status" id="status">
+      Memindai perangkat... mohon tunggu.
+    </div>
+
+    <div class="progress">
+      <div class="bar" id="bar"></div>
+    </div>
+
+    <div class="log" id="log"></div>
+
+    <button class="btn" id="btn" onclick="restart()">Ulangi</button>
+
+    <div class="safe">
+      *Ini hanya prank aman. Tidak ada data yang diambil.
+    </div>
+  </div>
+
+<script>
+  const logBox = document.getElementById("log");
+  const status = document.getElementById("status");
+  const bar = document.getElementById("bar");
+  const btn = document.getElementById("btn");
+
+  const lines = [
+    "[OK] Menghubungkan ke server keamanan...",
+    "[OK] Memeriksa koneksi jaringan...",
+    "[OK] Memindai aplikasi yang terinstall...",
+    "[OK] Memeriksa cache browser...",
+    "[OK] Memeriksa cookie...",
+    "[OK] Memeriksa aktivitas mencurigakan...",
+    "[WARN] Ditemukan: tingkat kepanikan pengguna meningkat 😭",
+    "[OK] Mengambil data: 0 file (aman)",
+    "[OK] Mengambil password: 0 (aman)",
+    "[OK] Mengambil foto: 0 (aman)",
+    "[OK] Mengambil kontak: 0 (aman)",
+    "[OK] Mengambil uang: 0 (apalagi 😆)",
+    "[DONE] Selesai."
+  ];
+
+  let i = 0;
+  let progress = 0;
+
+  function addLog(text) {
+    logBox.innerHTML += text + "<br>";
+    logBox.scrollTop = logBox.scrollHeight;
+  }
+
+  function run() {
+    logBox.innerHTML = "";
+    btn.style.display = "none";
+    i = 0;
+    progress = 0;
+    bar.style.width = "0%";
+
+    status.innerText = "Memindai perangkat... mohon tunggu.";
+
+    const timer = setInterval(() => {
+      if (i < lines.length) {
+        addLog(lines[i]);
+        progress = Math.min(100, progress + Math.floor(100 / lines.length));
+        bar.style.width = progress + "%";
+        i++;
+      } else {
+        clearInterval(timer);
+        bar.style.width = "100%";
+        status.innerText = "😆 Kamu kena prank! Tapi ini aman kok.\nJangan klik link sembarangan ya!";
+        btn.style.display = "block";
+      }
+    }, 650);
+  }
+
+  function restart() {
+    run();
+  }
+
+  run();
+</script>
+
+</body>
+</html>
